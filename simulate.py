@@ -34,6 +34,17 @@ for i in range(ITER):
 	backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
 	frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
 
+	pyrosim.Set_Motor_For_Joint(
+		# what robot the motor is to be attached to
+		bodyIndex=robotId,
+		# tells the simulator what joint the motor should be attached to
+		jointName=b'Torso_BackLeg',
+		# how the motor will attempt to control the motion of the joint
+		controlMode=p.POSITION_CONTROL,
+		# the desired angle between the two links connected by the joint
+		targetPosition=0.0,
+		# cap the total torque ever used by a motor
+		maxForce=500)
 
 	time.sleep(1/60)
 	# print(i)
