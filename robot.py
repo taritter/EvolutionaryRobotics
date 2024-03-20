@@ -38,15 +38,15 @@ class ROBOT:
                 decoded_joint_name = str(jointName)
             self.motors[decoded_joint_name] = MOTOR(decoded_joint_name)
 
-    def Act(self):
+    def Act(self, time):
         for neuronName in self.nn.Get_Neuron_Names():
             if self.nn.Is_Motor_Neuron(neuronName):
-                jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
-                desiredAngle = self.nn.Get_Value_Of(neuronName)
-                self.motors[jointName].Set_Value(self.robotId, desiredAngle)
+                self.jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
+                self.desiredAngle = self.nn.Get_Value_Of(neuronName)
+                self.motors[self.jointName].Set_Value(self.robotId, time)
                 print("neuron name ", neuronName)
-                print("joint name ", jointName)
-                print("desired angle ", desiredAngle)
+                print("joint name ", self.jointName)
+                print("desired angle ", self.desiredAngle)
 
 
     def Think(self):
