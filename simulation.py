@@ -1,3 +1,4 @@
+import simulate
 from world import WORLD
 from robot import ROBOT
 import constants as c
@@ -10,7 +11,10 @@ import time
 
 class SIMULATION:
     def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+        if simulate.directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
 
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         self.linkName = {}
@@ -31,7 +35,11 @@ class SIMULATION:
             ROBOT.Sense(self.robot, i)
             self.robot.Think()
             ROBOT.Act(self.robot, i)
-            time.sleep(1 / 100)
+            time.sleep(1 / 300)
+
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
 
     def __del__(self):
         p.disconnect()

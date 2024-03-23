@@ -1,3 +1,5 @@
+import random
+
 import pyrosim.pyrosim as pyrosim
 
 
@@ -55,17 +57,25 @@ def Generate_Body():
 
 
 def Generate_Brain():
-    #makes the body
+    # makes the body
     pyrosim.Start_NeuralNetwork("brain.nndf")
+    sensorNames = ["Torso", "BackLeg", "FrontLeg"]
+    motorNames = ["Torso_BackLeg", "Torso_FrontLeg"]
+
     pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
     pyrosim.Send_Sensor_Neuron(name=1, linkName="BackLeg")
     pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLeg")
     pyrosim.Send_Motor_Neuron(name=3, jointName="Torso_BackLeg")
     pyrosim.Send_Motor_Neuron(name=4, jointName="Torso_FrontLeg")
-    pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=3, weight=1.0)
-    pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=1.0)
-    pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=4, weight=500.0)
-    pyrosim.Send_Synapse(sourceNeuronName=3, targetNeuronName=4, weight=500.0)
+    #pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=3, weight=1.0)
+    #pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=1.0)
+    #pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=4, weight=500.0)
+    #pyrosim.Send_Synapse(sourceNeuronName=3, targetNeuronName=4, weight=500.0)
+    for i in range(len(sensorNames)):
+        for m in range(len(motorNames)):
+            mn = m + 3
+            pyrosim.Send_Synapse(sourceNeuronName=i, targetNeuronName=mn, weight=random.uniform(-1, 1))
+
     pyrosim.End()
 
 
@@ -73,7 +83,7 @@ def main():
     Create_World()
     Create_Robot()
     Generate_Body()
-    Generate_Brain()
+    #Generate_Brain()
 
 
 if __name__ == "__main__":
