@@ -1,16 +1,14 @@
-import simulation
 from world import WORLD
 from robot import ROBOT
 import constants as c
 import pybullet as p
 import pybullet_data
-import pyrosim.pyrosim as pyrosim
-import numpy
 import time
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
+        self.solutionID = solutionID
         self.directOrGUI = directOrGUI
         if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
@@ -21,7 +19,7 @@ class SIMULATION:
         self.linkName = {}
         # disables sidebars
         # p.configureDebugVisualizer(p.COV_ENABLE_GUI,0)
-        self.robot = ROBOT()
+        self.robot = ROBOT(self.solutionID)
         # add gravity
         p.setGravity(c.START, c.START, c.GRAVITY)
         self.world = WORLD()
