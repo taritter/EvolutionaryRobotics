@@ -1,4 +1,4 @@
-import simulate
+import simulation
 from world import WORLD
 from robot import ROBOT
 import constants as c
@@ -10,8 +10,9 @@ import time
 
 
 class SIMULATION:
-    def __init__(self):
-        if simulate.directOrGUI == "DIRECT":
+    def __init__(self, directOrGUI):
+        self.directOrGUI = directOrGUI
+        if self.directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
             self.physicsClient = p.connect(p.GUI)
@@ -26,16 +27,20 @@ class SIMULATION:
         self.world = WORLD()
 
 
+
     def Run(self):
 
 
         for i in range(c.ITER):
-            print(i)
+            #print(i)
             p.stepSimulation()
             ROBOT.Sense(self.robot, i)
             self.robot.Think()
             ROBOT.Act(self.robot, i)
-            time.sleep(1 / 300)
+            if self.directOrGUI == "GUI":
+                time.sleep(1/400)
+            else:
+                time.sleep(1 / 800)
 
 
     def Get_Fitness(self):

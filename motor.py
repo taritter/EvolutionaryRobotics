@@ -13,7 +13,7 @@ class MOTOR:
         self.offset = c.p_o_back
         self.Prepare_To_Act()
 
-    def Set_Value(self, robot, time):
+    def Set_Value(self, robot, desiredAngle):
         # decoded_joint_name = self.jointName.decode('utf-8') if isinstance(self.jointName, bytes) else self.jointName
         # print("decoded joint in set values ", decoded_joint_name)
         self.motors[self.jointName] = pyrosim.Set_Motor_For_Joint(
@@ -24,7 +24,7 @@ class MOTOR:
             # how the motor will attempt to control the motion of the joint
             controlMode=p.POSITION_CONTROL,
             # the desired angle between the two links connected by the joint
-            targetPosition=self.motorValues[time],
+            targetPosition=desiredAngle,
             # cap the total torque ever used by a motor
             maxForce=c.force)
 

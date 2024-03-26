@@ -19,7 +19,7 @@ class SOLUTION:
         else:
             os.system("python3 simulate.py GUI")
         with open("fitness.txt", 'r') as f:
-            self.fitness = f.readlines()[-1]
+            self.fitness = float(f.read())
         f.close()
     def Create_World(self):
         pass
